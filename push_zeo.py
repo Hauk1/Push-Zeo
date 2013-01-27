@@ -6,43 +6,25 @@ import urllib2
 
 from datetime import date, timedelta
 
-# Look at the last n days on each run (I sync my Zeo every two weeks or so)
+# Look at the last n days on each run. Update number as needed
 DAYS_TO_GATHER = 14
 
 # Your Zeo API key, which you can request here: http://mysleep.myzeo.com/api/signup.php
 ZEO_API_KEY = ""
 
+
 # The domain youd tie your Zeo API key to (their API checks the referer)
 ZEO_API_DOMAIN = ""
 
-# Your Zeo credentials (a future version could use OAuth instead)
-ZEO_USER = ""
-ZEO_PASSWORD = ""
+
+# Your Zeo credentials 
+print "Enter email"
+ZEO_USER = raw_input(">")
+print "Enter password"
+ZEO_PASSWORD = raw_input(">")
 
 # The URL we're querying for a Zeo sleep data record
 ZEO_URL = "https://api.myzeo.com:8443/zeows/api/v1/json/sleeperService/getSleepRecordForDate?key=%s&date=" % ZEO_API_KEY
-
-# Your Singly API key from https://singly.com/users/me/settings
-SINGLY_API_KEY = ""
-
-# The name of the dataset within Singly
-SINGLY_DATASET_NAME = "zeo"
-
-SINGLY_URL = "https://api.singly.com/%s/push/%s" % (SINGLY_API_KEY, SINGLY_DATASET_NAME)
-
-def post_singly(data):
-    """Post the data to Singly"""
-
-    data_json = json.dumps(data)
-
-    request = urllib2.Request(SINGLY_URL, data_json, {'content-type': 'application/json'})
-
-    stream = urllib2.urlopen(request)
-
-    result = stream.read()
-
-    if result != "ok":
-        print result
 
 def get_zeo(date):
     """Get a sleep record from Zeo by date"""
@@ -83,7 +65,7 @@ def main():
         zeo_data = get_zeo(day.strftime("%Y-%m-%d"))
 
         if zeo_data:
-            post_singly(zeo_data)
+            print zeo_data
 
 if __name__ == "__main__":
     main()
