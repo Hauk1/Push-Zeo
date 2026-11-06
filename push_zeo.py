@@ -1,8 +1,10 @@
 #!/usr/bin/env python2.7
 
 import base64
+import getpass
 import json
 import urllib2
+import warnings
 
 from datetime import date, timedelta
 
@@ -21,7 +23,13 @@ ZEO_API_DOMAIN = ""
 print "Enter email"
 ZEO_USER = raw_input(">")
 print "Enter password"
-ZEO_PASSWORD = raw_input(">")
+with warnings.catch_warnings():
+    # Never fall back to an input reader that may echo the password.
+    warnings.simplefilter("error", getpass.GetPassWarning)
+    try:
+        ZEO_PASSWORD = getpass.getpass(">")
+    except getpass.GetPassWarning:
+        raise SystemExit("Cannot hide password input; use an interactive terminal.")
 
 # The URL we're querying for a Zeo sleep data record
 ZEO_URL = "https://api.myzeo.com:8443/zeows/api/v1/json/sleeperService/getSleepRecordForDate?key=%s&date=" % ZEO_API_KEY
