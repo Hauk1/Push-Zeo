@@ -6,9 +6,9 @@ Removed pushing to Singly, now it gives json in the terminal ready to be explore
 Built an interface for Beau's code.
 
 Usage:
-Enter API key and the domain connected to the key. Then run the file and type username and password.
+Enter API key and the domain connected to the key. Then run the file in an interactive terminal and type username and password. Password input is hidden; the program stops if it cannot disable terminal echo.
 
 It gathers the last 14 days, but that can be alterd under DAYS_TO_GATHER.
 
 
-For it to be useful you'll probably want to run it once a day via `cron`.
+Run it once a day from an interactive terminal. Unattended `cron` execution is not supported by the current password prompt.
